@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全通路業務戰略家 × AI 專案管理實踐者 | 個人品牌網站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            wine: '#72092c',
+                            'wine-light': '#93183f',
+                            'wine-soft': '#fdf2f4',
+                            gold: '#b58900',
+                            'gold-light': '#d4af37',
+                            'gold-soft': '#fefae0',
+                            dark: '#1e293b',
+                            card: '#ffffff',
+                            border: '#e2e8f0',
+                        },
+                        ai: {
+                            teal: '#0d9488',
+                            cyan: '#0284c7',
+                            emerald: '#059669',
+                            soft: '#f0fdf4'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft-lg': '0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.02)',
+                        'glow-wine': '0 8px 25px -4px rgba(114, 9, 44, 0.25)',
+                        'glow-teal': '0 8px 25px -4px rgba(13, 148, 136, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #F8FAFC;
+            color: #334155;
+            overflow-x: hidden;
+        }
+        
+        .fresh-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 10px 30px -5px rgba(148, 163, 184, 0.12);
+        }
+
+        .fresh-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fresh-card-hover:hover {
+            transform: translateY(-4px);
+            border-color: rgba(114, 9, 44, 0.25);
+            box-shadow: 0 20px 35px -10px rgba(114, 9, 44, 0.12);
+        }
+
+        .text-gradient-wine {
+            background: linear-gradient(135deg, #72092c 0%, #a21c4b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-ai {
+            background: linear-gradient(135deg, #0d9488 0%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Subtle Ambient Glow */
+        .ambient-glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            filter: blur(110px);
+            pointer-events: none;
+            opacity: 0.45;
+            z-index: 0;
+        }
+        
+        #toast {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="relative antialiased text-slate-700 bg-slate-50">
+
+    <!-- Fresh Ambient Soft Background Lighting -->
+    <div class="ambient-glow bg-rose-100 top-10 -left-20"></div>
+    <div class="ambient-glow bg-emerald-100 top-1/3 -right-20"></div>
+    <div class="ambient-glow bg-amber-100 bottom-10 left-1/3"></div>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 fresh-card border-b border-slate-200/80 bg-white/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand / Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-wine to-brand-gold p-0.5 shadow-sm">
+                        <div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center font-bold text-lg text-brand-wine group-hover:bg-brand-wine group-hover:text-white transition-colors">
+                            VP
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-base font-extrabold tracking-tight text-slate-800 block leading-tight">資深通路戰略專家</span>
+                        <span class="text-xs text-brand-wine font-semibold tracking-wider uppercase">Omnichannel × AI PM</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Navigation -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                    <a href="#about" class="text-slate-600 hover:text-brand-wine transition-colors">關於我</a>
+                    <a href="#experience" class="text-slate-600 hover:text-brand-wine transition-colors">0到1全通路實績</a>
+                    <a href="#matrix" class="text-slate-600 hover:text-brand-wine transition-colors">通路地圖</a>
+                    <a href="#ai-transformation" class="text-slate-600 hover:text-brand-wine transition-colors">AI 數位轉型</a>
+                    <a href="#vision" class="text-slate-600 hover:text-brand-wine transition-colors">未來展望</a>
+                </nav>
+
+                <!-- Desktop CTA Buttons -->
+                <div class="hidden md:flex items-center gap-3">
+                    <button onclick="copyContactEmail()" class="px-4 py-2 text-xs font-bold rounded-lg border border-slate-300 text-slate-700 bg-white hover:bg-slate-50 transition-all shadow-sm">
+                        複製 Email
+                    </button>
+                    <a href="#contact" class="px-5 py-2.5 text-xs font-bold rounded-lg bg-brand-wine hover:bg-brand-wine-light text-white shadow-glow-wine transition-all flex items-center gap-2">
+                        <span>立即聯繫</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Icon Button -->
+                <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path id="menuIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileDrawer" class="hidden md:hidden border-b border-slate-200 bg-white/95 px-4 pt-2 pb-6 space-y-3 shadow-lg">
+            <a href="#about" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-wine">關於我</a>
+            <a href="#experience" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-wine">0到1全通路實績</a>
+            <a href="#matrix" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-wine">通路地圖</a>
+            <a href="#ai-transformation" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-wine">AI 數位轉型</a>
+            <a href="#vision" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-wine">未來展望</a>
+            <div class="pt-4 flex flex-col gap-2">
+                <button onclick="copyContactEmail()" class="w-full py-2.5 text-center text-xs font-bold rounded-lg border border-slate-300 text-slate-700 bg-white">
+                    複製 Email 聯絡
+                </button>
+                <a href="#contact" class="mobile-nav-link w-full py-2.5 text-center text-xs font-bold rounded-lg bg-brand-wine text-white text-center">
+                    立即洽談
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Fresh Hero Section -->
+    <section class="relative pt-32 pb-16 md:pt-40 md:pb-28 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Text Column -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-wine-soft border border-brand-wine/20 text-xs font-bold text-brand-wine shadow-sm">
+                        <span class="flex h-2 w-2 rounded-full bg-brand-wine animate-pulse"></span>
+                        外商酒類通路實戰 × AI 專案管理敏捷思維
+                    </div>
+
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight tracking-tight">
+                        重構通路銷售影響力<br>
+                        <span class="text-gradient-wine">外商資深經驗</span> 賦能 <span class="text-gradient-ai">AI 專案轉型</span>
+                    </h1>
+
+                    <p class="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                        曾深耕 <strong class="text-slate-900 font-bold">酒類外商多年通路業務</strong>，並於傳統食品產業集團內，於 <strong class="text-brand-wine font-bold">近 3 年內從零建構全新全通路酒類銷售部門</strong>。成功開拓便利商店、量販、經銷商、酒專與餐飲 (HORECA) 通路。目前積極精進 <strong class="text-ai-teal font-bold">AI 專案管理</strong>，期望將傳統通路實戰經驗與數位化管理思維結合，跨足科技業、酒類與食品業，深耕業務、通路行銷與通路管理領域。
+                    </p>
+
+                    <!-- Hero Call-To-Action -->
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#contact" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-brand-wine hover:bg-brand-wine-light text-white font-bold text-sm shadow-glow-wine transition-all flex items-center justify-center gap-2 group">
+                            <span>探討合作契機</span>
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                        <a href="#experience" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-sm border border-slate-300 transition-all text-center shadow-sm">
+                            探索 0 到 1 建構歷程
+                        </a>
+                    </div>
+
+                    <!-- Highlight Metrics -->
+                    <div class="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-4 text-center lg:text-left">
+                        <div class="p-3 rounded-xl bg-white/60 border border-slate-200/60 shadow-sm">
+                            <div class="text-2xl sm:text-3xl font-extrabold text-brand-wine font-mono">3<span class="text-slate-700 text-base">年</span></div>
+                            <div class="text-xs font-semibold text-slate-500 mt-0.5">從零打造全通路部門</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white/60 border border-slate-200/60 shadow-sm">
+                            <div class="text-2xl sm:text-3xl font-extrabold text-brand-gold font-mono">5<span class="text-slate-700 text-base">大</span></div>
+                            <div class="text-xs font-semibold text-slate-500 mt-0.5">核心通路覆蓋開拓</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white/60 border border-slate-200/60 shadow-sm">
+                            <div class="text-2xl sm:text-3xl font-extrabold text-ai-teal font-mono">AI<span class="text-xs text-slate-600 font-sans"> PM</span></div>
+                            <div class="text-xs font-semibold text-slate-500 mt-0.5">數位管理轉型賦能</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Profile Photo & Card -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        
+                        <!-- Fresh Backdrop Soft Frame -->
+                        <div class="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-rose-200/60 via-amber-100/50 to-teal-100/60 blur-xl opacity-70"></div>
+                        
+                        <!-- Main Executive Card with User Photo -->
+                        <div class="relative fresh-card rounded-2xl p-6 sm:p-7 border border-slate-200/90 bg-white/90 shadow-xl space-y-6">
+                            
+                            <!-- Profile Header Block -->
+                            <div class="flex items-center gap-5 pb-5 border-b border-slate-100">
+                                <div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shadow-md ring-4 ring-white shrink-0 bg-slate-100">
+                                    <img 
+                                        src="https://duk.tw/LWjjPT.png" 
+                                        alt="資深全通路業務戰略家照片" 
+                                        class="w-full h-full object-cover object-center"
+                                        onerror="this.onerror=null; this.src='https://placehold.co/400x400/f1f5f9/475569?text=Executive+Profile';"
+                                    >
+                                </div>
+                                <div>
+                                    <div class="inline-block px-2.5 py-0.5 rounded-full bg-brand-wine-soft text-brand-wine text-[11px] font-extrabold mb-1">
+                                        Executive Profile
+                                    </div>
+                                    <h3 class="text-xl font-black text-slate-900 tracking-tight">全通路業務戰略家</h3>
+                                    <p class="text-xs font-medium text-slate-500 mt-0.5">外商業務經歷 × AI PM 實踐</p>
+                                    <div class="mt-2 flex items-center gap-1.5 text-xs font-medium text-emerald-600">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                                        <span>尋求科技 / 酒類 / 食品高階職務</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Executive Key Capabilities List -->
+                            <div class="space-y-3">
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 flex items-start gap-3.5">
+                                    <div class="p-2 rounded-lg bg-brand-wine-soft text-brand-wine border border-rose-200 shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0h4m-4 0H9"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-900">酒類外商多年通路資歷</h4>
+                                        <p class="text-[11px] text-slate-500 mt-0.5">熟悉外商高標準談判、經銷商管理與通路利潤結構。</p>
+                                    </div>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 flex items-start gap-3.5">
+                                    <div class="p-2 rounded-lg bg-amber-50 text-brand-gold border border-amber-200 shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-900">0 到 1 事業部組建經驗</h4>
+                                        <p class="text-[11px] text-slate-500 mt-0.5">傳統食品集團 3 年內建立全新酒類部門，橫跨 5 大通路。</p>
+                                    </div>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 flex items-start gap-3.5">
+                                    <div class="p-2 rounded-lg bg-emerald-50 text-ai-teal border border-emerald-200 shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-900">AI 專案敏捷管理思維</h4>
+                                        <p class="text-[11px] text-slate-500 mt-0.5">融入數位預測與專案自動化，極大化銷售與跨部門營運效率。</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="py-20 relative bg-white border-y border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs uppercase tracking-widest text-brand-wine font-extrabold mb-2">Core Competencies</h2>
+                <p class="text-3xl font-black text-slate-900">外商實戰 × 0到1建構 × AI 專案敏捷</p>
+                <div class="w-16 h-1 bg-gradient-to-r from-brand-wine to-brand-gold mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Pillar 1 -->
+                <div class="fresh-card p-8 rounded-2xl fresh-card-hover bg-white space-y-4 relative overflow-hidden group">
+                    <div class="w-12 h-12 rounded-xl bg-brand-wine-soft border border-brand-wine/20 flex items-center justify-center text-brand-wine font-black text-lg">
+                        01
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-brand-wine transition-colors">酒類外商深厚基底</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        擁有多年酒類外商 FMCG 通路業務經驗，精通通路價格控管、經銷合約談判、品牌市場推廣與 Key Account 客戶關係維持。
+                    </p>
+                    <ul class="text-xs font-semibold text-slate-600 space-y-2 pt-2 border-t border-slate-100">
+                        <li class="flex items-center gap-2">
+                            <span class="text-brand-wine">✓</span> 外商高標準通路開拓與戰略規劃
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-brand-wine">✓</span> 經銷商利潤體系與合約談判
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="fresh-card p-8 rounded-2xl fresh-card-hover bg-white space-y-4 relative overflow-hidden group border-brand-wine/30">
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-brand-gold font-black text-lg">
+                        02
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-brand-wine transition-colors">0 到 1 事業部建構力</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        在傳統食品集團內部近 3 年，從無到有籌備並成立全新酒類事業部，成功打通 5 大關鍵通路並建立穩定銷售管線。
+                    </p>
+                    <ul class="text-xs font-semibold text-slate-600 space-y-2 pt-2 border-t border-slate-100">
+                        <li class="flex items-center gap-2">
+                            <span class="text-brand-gold">✓</span> 跨通路商品矩陣與定價策略
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-brand-gold">✓</span> 團隊組織構建與銷售 KPI 管理
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="fresh-card p-8 rounded-2xl fresh-card-hover bg-white space-y-4 relative overflow-hidden group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-ai-teal font-black text-lg">
+                        03
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-ai-teal transition-colors">AI 專案管理數位轉型</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        精進 AI 專案管理知識（AI Project Management），將實戰經驗數據化，活用 AI 進行銷售預測、專案敏捷追蹤與工作流自動化。
+                    </p>
+                    <ul class="text-xs font-semibold text-slate-600 space-y-2 pt-2 border-t border-slate-100">
+                        <li class="flex items-center gap-2">
+                            <span class="text-ai-teal">✓</span> AI 驅動銷量預測與庫存最佳化
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-ai-teal">✓</span> 敏捷專案管理與跨部門數位協作
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience & Achievements Timeline Section -->
+    <section id="experience" class="py-24 relative bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs uppercase tracking-widest text-brand-wine font-extrabold mb-2">Track Record</h2>
+                <p class="text-3xl font-black text-slate-900">3 年「0 到 1」突破性建構與實績</p>
+                <p class="text-slate-500 text-sm mt-2">於傳統食品集團內部創業，打造全新高獲利酒類事業板塊</p>
+            </div>
+
+            <!-- Milestone Steps Timeline -->
+            <div class="space-y-8 relative before:absolute before:inset-0 before:left-4 md:before:left-1/2 before:-ml-px before:w-0.5 before:bg-gradient-to-b before:from-brand-wine before:via-amber-400 before:to-emerald-500">
+                
+                <!-- Step 1 -->
+                <div class="relative flex items-center md:justify-between group md:even:flex-row-reverse">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-brand-wine border-4 border-slate-50 text-white font-black text-sm shadow-md shrink-0 z-10 md:order-1 md:group-even:order-1">
+                        1
+                    </div>
+                    <div class="fresh-card p-6 sm:p-8 rounded-2xl bg-white border border-slate-200/90 w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] ml-auto md:ml-0 shadow-sm hover:border-brand-wine/40 transition-all">
+                        <span class="text-xs font-bold text-brand-wine">Phase 1 | 部門立項與商業模式設計</span>
+                        <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1">從零籌備酒類事業部</h3>
+                        <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                            結合集團供應鏈優勢，重新定調酒類產品定位。進行嚴謹市場競品分析，擬定毛利結構、法規合規與通路進入障礙管理計畫。
+                        </p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="px-2.5 py-1 rounded-md bg-slate-100 text-xs font-semibold text-slate-700">事業部籌備</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-100 text-xs font-semibold text-slate-700">產品線定位</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-100 text-xs font-semibold text-slate-700">利潤模型</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative flex items-center md:justify-between group md:even:flex-row-reverse">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-brand-gold border-4 border-slate-50 text-white font-black text-sm shadow-md shrink-0 z-10 md:order-1 md:group-even:order-1">
+                        2
+                    </div>
+                    <div class="fresh-card p-6 sm:p-8 rounded-2xl bg-white border border-slate-200/90 w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] ml-auto md:ml-0 shadow-sm hover:border-brand-gold/40 transition-all">
+                        <span class="text-xs font-bold text-brand-gold">Phase 2 | 全通路拓展攻堅</span>
+                        <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1">5 大關鍵通路全面開拓</h3>
+                        <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                            運用外商多年業務開拓經驗，順利敲定各大超商（C-Store）上架、量販店檔期合作，同步建立全台經銷商網路與餐飲指標通路。
+                        </p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="px-2.5 py-1 rounded-md bg-rose-50 text-xs font-semibold text-brand-wine border border-rose-100">C-Store 超商進櫃</span>
+                            <span class="px-2.5 py-1 rounded-md bg-amber-50 text-xs font-semibold text-brand-gold border border-amber-100">全台經銷網絡</span>
+                            <span class="px-2.5 py-1 rounded-md bg-emerald-50 text-xs font-semibold text-emerald-700 border border-emerald-100">HORECA 佈局</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative flex items-center md:justify-between group md:even:flex-row-reverse">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-ai-teal border-4 border-slate-50 text-white font-black text-sm shadow-md shrink-0 z-10 md:order-1 md:group-even:order-1">
+                        3
+                    </div>
+                    <div class="fresh-card p-6 sm:p-8 rounded-2xl bg-white border border-slate-200/90 w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] ml-auto md:ml-0 shadow-sm hover:border-ai-teal/40 transition-all">
+                        <span class="text-xs font-bold text-ai-teal">Phase 3 | AI 專案管理與未來賦能</span>
+                        <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1">融合數位敏捷與跨界轉型</h3>
+                        <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                            將 3 年實戰經驗進行模組化，導入 AI 專案管理機制（AI Project Management），提升銷量預測精準度與團隊溝通效率。
+                        </p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="px-2.5 py-1 rounded-md bg-teal-50 text-xs font-semibold text-ai-teal border border-teal-100">AI 銷售預測</span>
+                            <span class="px-2.5 py-1 rounded-md bg-teal-50 text-xs font-semibold text-ai-teal border border-teal-100">敏捷專案管理</span>
+                            <span class="px-2.5 py-1 rounded-md bg-teal-50 text-xs font-semibold text-ai-teal border border-teal-100">跨界轉型</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Omnichannel Channel Matrix Section -->
+    <section id="matrix" class="py-20 bg-white border-t border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-xs uppercase tracking-widest text-brand-wine font-extrabold mb-2">Channel Matrix</h2>
+                    <p class="text-3xl font-black text-slate-900">5 大全通路實績矩陣</p>
+                </div>
+                <p class="text-slate-500 text-sm mt-2 md:mt-0 max-w-md">
+                    橫跨便利商店、量販、經銷商、酒專與餐飲通路，精通多元通路的運營邏輯與談判眉角。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                <!-- Channel 1: C-Stores -->
+                <div class="fresh-card p-6 rounded-2xl fresh-card-hover bg-white border border-slate-200/80 flex flex-col justify-between">
+                    <div>
+                        <div class="p-3 w-fit rounded-xl bg-rose-50 border border-rose-200 text-brand-wine mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        </div>
+                        <h3 class="font-extrabold text-slate-900 text-lg">便利商店</h3>
+                        <p class="text-xs font-semibold text-brand-wine mt-0.5">C-Store Sector</p>
+                        <p class="text-slate-600 text-xs mt-3 leading-relaxed">
+                            掌控高流量上架架位談判、新品入箱、門市物流覆蓋與促銷轉化率。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-bold text-slate-500">
+                        關鍵字：鮮食搭酒、高迴轉率、門市陳列
+                    </div>
+                </div>
+
+                <!-- Channel 2: Hypermarkets -->
+                <div class="fresh-card p-6 rounded-2xl fresh-card-hover bg-white border border-slate-200/80 flex flex-col justify-between">
+                    <div>
+                        <div class="p-3 w-fit rounded-xl bg-sky-50 border border-sky-200 text-sky-700 mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+                        </div>
+                        <h3 class="font-extrabold text-slate-900 text-lg">量販 / 超市</h3>
+                        <p class="text-xs font-semibold text-sky-700 mt-0.5">Hypermarket / Supermarket</p>
+                        <p class="text-slate-600 text-xs mt-3 leading-relaxed">
+                            節慶酒展地堆陳列、促銷條件談判與 Joint Business Planning (JBP) 策略。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-bold text-slate-500">
+                        關鍵字：節慶酒展、大宗採購、年節禮盒
+                    </div>
+                </div>
+
+                <!-- Channel 3: Distributors -->
+                <div class="fresh-card p-6 rounded-2xl fresh-card-hover bg-white border border-slate-200/80 flex flex-col justify-between">
+                    <div>
+                        <div class="p-3 w-fit rounded-xl bg-amber-50 border border-amber-200 text-amber-700 mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
+                        </div>
+                        <h3 class="font-extrabold text-slate-900 text-lg">經銷商體系</h3>
+                        <p class="text-xs font-semibold text-amber-700 mt-0.5">Distributors Network</p>
+                        <p class="text-slate-600 text-xs mt-3 leading-relaxed">
+                            全台區域經銷商佈局、利潤分潤政策、庫存管控與價格紀律維護。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-bold text-slate-500">
+                        關鍵字：區域經銷、價格控管、安全庫存
+                    </div>
+                </div>
+
+                <!-- Channel 4: Specialty Shops -->
+                <div class="fresh-card p-6 rounded-2xl fresh-card-hover bg-white border border-slate-200/80 flex flex-col justify-between">
+                    <div>
+                        <div class="p-3 w-fit rounded-xl bg-purple-50 border border-purple-200 text-purple-700 mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h3 class="font-extrabold text-slate-900 text-lg">菸酒專賣店</h3>
+                        <p class="text-xs font-semibold text-purple-700 mt-0.5">Wine & Liquor Stores</p>
+                        <p class="text-slate-600 text-xs mt-3 leading-relaxed">
+                            深耕在地指標酒專門店、精品酒款配送、門市導購與店長關係維護。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-bold text-slate-500">
+                        關鍵字：高端精品酒、門市導購、客戶忠誠
+                    </div>
+                </div>
+
+                <!-- Channel 5: On-Premise / HORECA -->
+                <div class="fresh-card p-6 rounded-2xl fresh-card-hover bg-white border border-slate-200/80 flex flex-col justify-between">
+                    <div>
+                        <div class="p-3 w-fit rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                        </div>
+                        <h3 class="font-extrabold text-slate-900 text-lg">餐飲 / 夜間通路</h3>
+                        <p class="text-xs font-semibold text-emerald-700 mt-0.5">HORECA / On-Premise</p>
+                        <p class="text-slate-600 text-xs mt-3 leading-relaxed">
+                            飯店、餐廳、酒吧酒單（Wine List）開拓、餐酒搭配推廣與侍酒師活動贊助。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] font-bold text-slate-500">
+                        關鍵字：餐酒搭配、品牌包場、專業酒單
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Project Management & Digital Transformation Section -->
+    <section id="ai-transformation" class="py-24 relative bg-slate-50 overflow-hidden border-t border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="fresh-card rounded-3xl p-8 md:p-12 border border-slate-200/80 bg-white shadow-xl">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <div class="lg:col-span-6 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-ai-teal text-xs font-bold">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                            AI Project Management Transformation
+                        </div>
+
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">
+                            傳統通路經驗 <br>
+                            <span class="text-gradient-ai">注入 AI 數位管理思維</span>
+                        </h2>
+
+                        <p class="text-slate-600 text-sm leading-relaxed font-normal">
+                            將傳統業務經驗結合現代 <strong class="text-ai-teal font-bold">AI 專案管理工具</strong> 與數據驅動機制，可將經驗談判轉換為可量化、可規模化的通路資產。
+                        </p>
+
+                        <div class="space-y-4 pt-2">
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-emerald-100 text-ai-teal flex items-center justify-center text-xs font-extrabold mt-0.5">✓</div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-900">智能銷量與庫存預測 (AI Demand Forecasting)</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">結合節慶、檔期數據與歷史進貨波動，降低缺貨率與庫存呆滯風險。</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center text-xs font-extrabold mt-0.5">✓</div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-900">敏捷通路專案進度追蹤 (Agile Channel PM)</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">運用看板與自動化工作流，橫跨供應鏈、行銷與法規審查，加速新品上市時程。</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-extrabold mt-0.5">✓</div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-900">GenAI 輔助提案與數據分析</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">運用生成式 AI 快速產出 JBP 通路提案與活動效益評估報告，大幅提昇戰術執行力。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Tech Box -->
+                    <div class="lg:col-span-6">
+                        <div class="bg-slate-900 rounded-2xl p-6 font-mono text-xs text-slate-300 shadow-2xl relative">
+                            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                                    <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                                    <span class="text-slate-400 text-[11px] ml-2">omnichannel_ai_engine.py</span>
+                                </div>
+                                <span class="text-emerald-400 font-semibold">FRESH LOGIC</span>
+                            </div>
+
+                            <div class="space-y-3 font-mono text-slate-300 text-[11px]">
+                                <p class="text-slate-500"># 結合傳統通路優勢與 AI PM 數位化引擎</p>
+                                <p><span class="text-purple-400">class</span> <span class="text-yellow-300">ExecutiveStrategyEngine</span>:</p>
+                                <p class="pl-4"><span class="text-purple-400">def</span> <span class="text-blue-400">__init__</span>(self, foreign_exp, zero_to_one, ai_pm):</p>
+                                <p class="pl-8 text-slate-400">self.fmcg_wine_sales = foreign_exp  <span class="text-amber-300"># 外商通路實戰</span></p>
+                                <p class="pl-8 text-slate-400">self.omnichannel_setup = zero_to_one <span class="text-rose-300"># 3年從零建構</span></p>
+                                <p class="pl-8 text-slate-400">self.digital_ai_pm = ai_pm          <span class="text-emerald-300"># AI 敏捷轉型</span></p>
+                                
+                                <p class="pl-4 pt-2"><span class="text-purple-400">def</span> <span class="text-blue-400">deliver_growth</span>(self, target_industry):</p>
+                                <p class="pl-8 text-slate-300">insights = self.digital_ai_pm.analyze(target_industry)</p>
+                                <p class="pl-8 text-slate-300">playbook = self.fmcg_wine_sales.get_execution()</p>
+                                <p class="pl-8 text-emerald-400">return "Maximize ROI & Market Dominance"</p>
+                            </div>
+
+                            <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+                                <span class="text-slate-400 text-[10px]">CAREER TARGET: Tech / Wine / FMCG</span>
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] border border-emerald-500/30 font-bold">READY TO SCALE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Career Vision & Focus Areas -->
+    <section id="vision" class="py-20 relative bg-white border-t border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs uppercase tracking-widest text-brand-wine font-extrabold mb-2">Next Chapter</h2>
+                <p class="text-3xl font-black text-slate-900">下一階段職涯目標與專業深耕</p>
+                <p class="text-slate-500 text-sm mt-2">期望跨足科技業、酒類與食品業，深耕三大核心管理領域</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Target Area 1 -->
+                <div class="fresh-card p-8 rounded-2xl bg-white border border-slate-200/80 text-center space-y-4 hover:border-brand-wine/40 transition-all shadow-sm">
+                    <div class="w-14 h-14 mx-auto rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center text-brand-wine">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-extrabold text-slate-900">業務高階管理 (Sales Management)</h3>
+                    <p class="text-slate-600 text-xs leading-relaxed">
+                        帶領業務團隊達成業績目標、關鍵客戶 (Key Account) 談判、銷售策略制定與全台業績拓展。
+                    </p>
+                </div>
+
+                <!-- Target Area 2 -->
+                <div class="fresh-card p-8 rounded-2xl bg-white border border-slate-200/80 text-center space-y-4 hover:border-brand-wine/40 transition-all shadow-sm">
+                    <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-brand-gold">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 30a1 1 0 000 2h2a1 1 0 000-2h-2zM11 5a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V5zM4 11a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM4 18a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM18 11a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2zM18 18a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-extrabold text-slate-900">通路行銷 (Trade Marketing)</h3>
+                    <p class="text-slate-600 text-xs leading-relaxed">
+                        連結品牌與零售通路，規劃促銷檔期、購物者洞察 (Shopper Insight) 與 POSM 陳列效益極大化。
+                    </p>
+                </div>
+
+                <!-- Target Area 3 -->
+                <div class="fresh-card p-8 rounded-2xl bg-white border border-slate-200/80 text-center space-y-4 hover:border-brand-wine/40 transition-all shadow-sm">
+                    <div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-ai-teal">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-extrabold text-slate-900">通路管理 (Channel Management)</h3>
+                    <p class="text-slate-600 text-xs leading-relaxed">
+                        全通路代理與經銷體系佈局、控管價格結構紀律，導入 AI 專案管理工具優化運營效能。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fresh Contact & Call-To-Action Section -->
+    <section id="contact" class="py-24 relative bg-slate-50 border-t border-slate-200/80">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="fresh-card rounded-3xl p-8 sm:p-12 border border-slate-200/90 bg-white text-center space-y-8 shadow-xl">
+                
+                <div class="max-w-2xl mx-auto space-y-3">
+                    <span class="px-3.5 py-1 rounded-full bg-brand-wine-soft text-brand-wine text-xs font-bold uppercase tracking-wider">Let's Connect</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">期待與您探討商業合作與職涯機會</h2>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        如果您正在尋找具備外商經驗與「0 到 1」實戰力的全通路主管，或是期望將 AI 數位管理思維導入團隊，歡迎隨時與我聯繫！
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+                    <button onclick="copyContactEmail()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-wine hover:bg-brand-wine-light text-white font-bold text-sm shadow-glow-wine transition-all flex items-center justify-center gap-3">
+                        <svg class="w-5 h-5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        <span>複製 Email 信箱</span>
+                    </button>
+
+                    <button onclick="toggleContactModal()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-3">
+                        <svg class="w-5 h-5 text-ai-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                        <span>線上留言 / 預約對談</span>
+                    </button>
+                </div>
+
+                <div class="pt-6 border-t border-slate-100 flex flex-wrap justify-center items-center gap-8 text-xs font-semibold text-slate-500">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        所在地：台灣台北市 (Taipei, Taiwan)
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-wine" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        目標領域：科技 / 酒類 / FMCG 食品
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-white border-t border-slate-200/80 text-center text-xs text-slate-500 font-medium">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Executive Portfolio. Executive Omnichannel Strategy & AI Management.</p>
+        </div>
+    </footer>
+
+    <!-- Email Copy Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 opacity-0 pointer-events-none transform translate-y-4 fresh-card px-5 py-3.5 rounded-xl border border-brand-wine/30 bg-white shadow-2xl flex items-center gap-3">
+        <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+        <span id="toastText" class="text-xs font-bold text-slate-800">Email 已複製到剪貼簿！</span>
+    </div>
+
+    <!-- Contact Modal Dialog -->
+    <div id="contactModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+        <div class="fresh-card w-full max-w-lg rounded-2xl p-6 sm:p-8 border border-slate-200 bg-white relative space-y-6 shadow-2xl">
+            <button onclick="toggleContactModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+
+            <div>
+                <h3 class="text-xl font-bold text-slate-900">線上發送訊息 / 洽談邀請</h3>
+                <p class="text-xs text-slate-500 mt-1">請留下您的聯繫方式，我將於 24 小時內儘速回覆。</p>
+            </div>
+
+            <form id="contactForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">您的姓名 / 寶號</label>
+                    <input type="text" required placeholder="例：王大明 / HR Director" class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-800 focus:outline-none focus:border-brand-wine">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">聯絡 Email / 電話</label>
+                    <input type="text" required placeholder="name@company.com" class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-800 focus:outline-none focus:border-brand-wine">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">洽談內容 / 職缺意向</label>
+                    <textarea rows="4" required placeholder="請簡述職缺需求或合作想法..." class="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-800 focus:outline-none focus:border-brand-wine"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 rounded-lg bg-brand-wine hover:bg-brand-wine-light text-white font-bold text-sm shadow-glow-wine transition-all">
+                    送出洽談訊息
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Navigation Handler
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileDrawer = document.getElementById('mobileDrawer');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileDrawer.classList.toggle('hidden');
+        });
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileDrawer.classList.add('hidden');
+            });
+        });
+
+        // Safe Email Copy Handler using textarea execCommand fallback for iFrame compatibility
+        function copyContactEmail() {
+            const email = "executive.sales.aipm@example.com";
+            
+            const tempInput = document.createElement("textarea");
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            
+            try {
+                document.execCommand("copy");
+                showToast("已成功複製 Email: " + email);
+            } catch (err) {
+                showToast("複製失敗，請手動複製: " + email);
+            }
+            
+            document.body.removeChild(tempInput);
+        }
+
+        // Custom Toast Notification Trigger
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toastText');
+            
+            toastText.textContent = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }, 3000);
+        }
+
+        // Contact Modal Logic
+        function toggleContactModal() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Form Submit Simulation
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            toggleContactModal();
+            showToast("感謝您的留言！訊息已成功傳送，將盡快回覆您。");
+            document.getElementById('contactForm').reset();
+        }
+    </script>
+</body>
+</html>
